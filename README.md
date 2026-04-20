@@ -19,6 +19,8 @@ Projects in this section are full applications, products, and prototypes built *
 
 ### Sad Salaryman
 
+![Sad Salaryman](screenshots/sad-salaryman.png)
+
 A gamified object scanning app where you earn "burden" as an unpaid intern.
 
 **Description:** Turn your life into a corporate simulation. Scan everyday objects to earn burden, track your progress through corporate ranks, and climb from Unpaid Intern to Contractor.
@@ -34,6 +36,8 @@ A gamified object scanning app where you earn "burden" as an unpaid intern.
 
 ### InsureScan NZ
 
+![InsureScan NZ](screenshots/insurescan.png)
+
 AI-powered home contents valuation for insurance.
 
 **Description:** Identify, value, and catalog your home contents in minutes with AI. Snap photos of items, get instant NZ pricing with GST included, and export professional PDF inventories for insurance claims.
@@ -48,6 +52,8 @@ AI-powered home contents valuation for insurance.
 ---
 
 ### Scenia
+
+![Scenia](screenshots/scenia.png)
 
 IT Portfolio Planning & Visualisation.
 
@@ -86,6 +92,8 @@ To add a project to the showcase:
 ```markdown
 ### Your Project Name
 
+![Your Project Name](screenshots/your-project.png)
+
 One-paragraph description of what it does.
 
 **Description:** A longer description if needed.
@@ -103,4 +111,5 @@ One-paragraph description of what it does.
 
 - Max dimensions: 1200px wide
 - Format: PNG or JPG
-- File name: `{project-name}.png` in an `/screenshots` folder
+- File name: `{project-name}.png` in the `/screenshots` folder
+- Add the image reference right after your project title
