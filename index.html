@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Agentics NZ Showcase</title>
+<meta name="description" content="A curated collection of projects built by the Agentics NZ community using AI agents." />
+<style>
+  :root {
+    --bg: #f8fafc;
+    --surface: #ffffff;
+    --surface-2: #f1f5f9;
+    --text: #0f172a;
+    --muted: #64748b;
+    --border: #e2e8f0;
+    --accent: #2563eb;
+    --accent-soft: #dbeafe;
+    --shadow: 0 1px 2px rgba(15, 23, 42, 0.04), 0 8px 24px rgba(15, 23, 42, 0.06);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0b1220;
+      --surface: #111827;
+      --surface-2: #0f172a;
+      --text: #f1f5f9;
+      --muted: #94a3b8;
+      --border: #1f2937;
+      --accent: #60a5fa;
+      --accent-soft: #1e3a8a;
+      --shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 8px 24px rgba(0, 0, 0, 0.35);
+    }
+  }
+  html[data-theme="light"] {
+    --bg: #f8fafc;
+    --surface: #ffffff;
+    --surface-2: #f1f5f9;
+    --text: #0f172a;
+    --muted: #64748b;
+    --border: #e2e8f0;
+    --accent: #2563eb;
+    --accent-soft: #dbeafe;
+    --shadow: 0 1px 2px rgba(15, 23, 42, 0.04), 0 8px 24px rgba(15, 23, 42, 0.06);
+  }
+  html[data-theme="dark"] {
+    --bg: #0b1220;
+    --surface: #111827;
+    --surface-2: #0f172a;
+    --text: #f1f5f9;
+    --muted: #94a3b8;
+    --border: #1f2937;
+    --accent: #60a5fa;
+    --accent-soft: #1e3a8a;
+    --shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 8px 24px rgba(0, 0, 0, 0.35);
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+    transition: background-color 0.2s ease, color 0.2s ease;
+  }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+
+  .page {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem 1.25rem 4rem;
+  }
+
+  header.site {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-bottom: 2.5rem;
+  }
+  header.site h1 {
+    font-size: clamp(1.75rem, 3vw, 2.5rem);
+    margin: 0 0 0.25rem;
+    letter-spacing: -0.02em;
+  }
+  header.site p.lead {
+    margin: 0;
+    color: var(--muted);
+    max-width: 60ch;
+  }
+
+  .theme-toggle {
+    display: inline-flex;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    border-radius: 9999px;
+    padding: 2px;
+    gap: 0;
+  }
+  .theme-toggle button {
+    appearance: none;
+    background: transparent;
+    color: var(--muted);
+    border: 0;
+    padding: 0.35rem 0.85rem;
+    font-size: 0.8rem;
+    border-radius: 9999px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    transition: background-color 0.15s ease, color 0.15s ease;
+  }
+  .theme-toggle button:hover { color: var(--text); }
+  .theme-toggle button[aria-pressed="true"] {
+    background: var(--accent-soft);
+    color: var(--accent);
+    font-weight: 600;
+  }
+
+  nav.toc {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 2rem;
+  }
+  nav.toc a {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.35rem 0.85rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 9999px;
+    font-size: 0.85rem;
+    color: var(--muted);
+  }
+  nav.toc a:hover {
+    color: var(--accent);
+    border-color: var(--accent);
+    text-decoration: none;
+  }
+
+  section.category {
+    margin-bottom: 3rem;
+    scroll-margin-top: 1rem;
+  }
+  section.category > header {
+    margin-bottom: 1.25rem;
+  }
+  section.category h2 {
+    font-size: 1.5rem;
+    margin: 0 0 0.25rem;
+    letter-spacing: -0.01em;
+  }
+  section.category .intro {
+    color: var(--muted);
+    margin: 0;
+    max-width: 70ch;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 1.25rem;
+  }
+
+  article.card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+  }
+  article.card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow);
+    border-color: color-mix(in oklab, var(--accent) 40%, var(--border));
+  }
+  article.card .thumb {
+    aspect-ratio: 16 / 9;
+    background: var(--surface-2);
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  article.card .thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  article.card .thumb.placeholder {
+    color: var(--muted);
+    font-size: 0.85rem;
+    font-style: italic;
+  }
+  article.card .body {
+    padding: 1rem 1.1rem 1.1rem;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+  }
+  article.card h3 {
+    margin: 0 0 0.4rem;
+    font-size: 1.1rem;
+    letter-spacing: -0.01em;
+  }
+  article.card .tagline {
+    margin: 0 0 0.9rem;
+    color: var(--text);
+  }
+  article.card .meta {
+    display: grid;
+    gap: 0.4rem;
+    margin: 0 0 1rem;
+    font-size: 0.9rem;
+  }
+  article.card .meta .row {
+    display: grid;
+    grid-template-columns: 90px 1fr;
+    gap: 0.5rem;
+  }
+  article.card .meta .row dt {
+    color: var(--muted);
+    margin: 0;
+  }
+  article.card .meta .row dd {
+    margin: 0;
+    color: var(--text);
+  }
+  article.card .meta .row dd code {
+    background: var(--surface-2);
+    padding: 0.05rem 0.3rem;
+    border-radius: 4px;
+    font-size: 0.85em;
+  }
+  article.card .links {
+    margin-top: auto;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+  article.card .links a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    padding: 0.35rem 0.7rem;
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: 9999px;
+    font-size: 0.85rem;
+    color: var(--text);
+  }
+  article.card .links a:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    text-decoration: none;
+  }
+
+  p.loading, p.error {
+    color: var(--muted);
+    padding: 2rem 0;
+    text-align: center;
+  }
+  p.error {
+    color: #dc2626;
+  }
+
+  footer.site {
+    margin-top: 4rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border);
+    color: var(--muted);
+    font-size: 0.85rem;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+</style>
+</head>
+<body>
+<div class="page">
+  <header class="site">
+    <div>
+      <h1>Agentics NZ Showcase</h1>
+      <p class="lead">A curated collection of projects built by the Agentics NZ community using AI agents.</p>
+    </div>
+    <div class="theme-toggle" role="group" aria-label="Theme">
+      <button data-theme-choice="light" aria-pressed="false" title="Light mode">☀︎ Light</button>
+      <button data-theme-choice="system" aria-pressed="true" title="Match system">⦿ System</button>
+      <button data-theme-choice="dark" aria-pressed="false" title="Dark mode">☾ Dark</button>
+    </div>
+  </header>
+
+  <nav class="toc" id="toc" aria-label="Categories"></nav>
+
+  <main id="content">
+    <p class="loading">Loading projects from README…</p>
+  </main>
+
+  <footer class="site">
+    <span>Content rendered from <a href="./README.md">README.md</a> at load time.</span>
+    <span><a href="https://github.com/agenticsnz/showcase">agenticsnz/showcase</a></span>
+  </footer>
+</div>
+
+<script>
+(() => {
+  // ---- Theme handling ----
+  const root = document.documentElement;
+  const buttons = document.querySelectorAll('[data-theme-choice]');
+  const stored = localStorage.getItem('theme') || 'system';
+
+  function applyTheme(choice) {
+    if (choice === 'system') {
+      root.removeAttribute('data-theme');
+    } else {
+      root.setAttribute('data-theme', choice);
+    }
+    localStorage.setItem('theme', choice);
+    buttons.forEach(b => {
+      b.setAttribute('aria-pressed', b.dataset.themeChoice === choice ? 'true' : 'false');
+    });
+  }
+  buttons.forEach(b => b.addEventListener('click', () => applyTheme(b.dataset.themeChoice)));
+  applyTheme(stored);
+
+  // ---- README fetch + parse ----
+  const IGNORED_SECTIONS = new Set(['categories', 'adding your project']);
+
+  function escapeHtml(s) {
+    return s.replace(/[&<>"']/g, c => ({
+      '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+    }[c]));
+  }
+
+  function renderInline(md) {
+    let s = escapeHtml(md);
+    s = s.replace(/`([^`]+)`/g, '<code>$1</code>');
+    s = s.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+    s = s.replace(/\[([^\]]+)\]\(([^)\s]+)\)/g, (_, text, url) => {
+      const external = /^https?:/.test(url);
+      const attrs = external ? ' target="_blank" rel="noopener"' : '';
+      return `<a href="${url}"${attrs}>${text}</a>`;
+    });
+    return s;
+  }
+
+  // Split README into logical sections on horizontal rules.
+  function splitSections(md) {
+    // Normalise newlines and split on --- lines.
+    const lines = md.replace(/\r\n/g, '\n').split('\n');
+    const sections = [];
+    let current = [];
+    for (const line of lines) {
+      if (/^\s*---\s*$/.test(line)) {
+        if (current.length) sections.push(current.join('\n'));
+        current = [];
+      } else {
+        current.push(line);
+      }
+    }
+    if (current.length) sections.push(current.join('\n'));
+    return sections;
+  }
+
+  function parseProject(section, category) {
+    const lines = section.split('\n');
+    const first = lines.find(l => l.trim().startsWith('### '));
+    if (!first) return null;
+    const name = first.replace(/^###\s+/, '').trim();
+
+    // Image (first markdown image).
+    const imgMatch = section.match(/!\[([^\]]*)\]\(([^)]+)\)/);
+    const image = imgMatch ? { alt: imgMatch[1], src: imgMatch[2] } : null;
+
+    // Find tagline: first non-empty, non-heading, non-image, non-bold-field line(s).
+    const body = section.replace(first, '').trim();
+    const paragraphs = body.split(/\n\s*\n/).map(p => p.trim()).filter(Boolean);
+
+    let tagline = '';
+    const fields = {};
+    const links = [];
+
+    for (const p of paragraphs) {
+      // Skip pure image paragraphs.
+      if (/^!\[[^\]]*\]\([^)]+\)\s*$/.test(p)) continue;
+
+      // Bold-prefixed field, e.g. **Stack:** ...
+      const fieldMatch = p.match(/^\*\*([^:*]+):\*\*\s*([\s\S]*)$/);
+      if (fieldMatch) {
+        const key = fieldMatch[1].trim().toLowerCase();
+        const value = fieldMatch[2].trim();
+        if (key === 'links') {
+          // The list items may be on subsequent lines within this paragraph.
+          const listLines = value.split('\n').map(l => l.trim()).filter(l => l.startsWith('-'));
+          for (const l of listLines) {
+            const item = l.replace(/^-\s*/, '');
+            const linkMatch = item.match(/^(\S+)\s*(.*?)\[([^\]]+)\]\(([^)\s]+)\)/);
+            if (linkMatch) {
+              links.push({
+                emoji: linkMatch[1],
+                label: (linkMatch[2] || '').replace(/:\s*$/, '').trim(),
+                text: linkMatch[3],
+                url: linkMatch[4],
+              });
+            } else {
+              const fallback = item.match(/\[([^\]]+)\]\(([^)\s]+)\)/);
+              if (fallback) {
+                links.push({ emoji: '', label: '', text: fallback[1], url: fallback[2] });
+              }
+            }
+          }
+          continue;
+        }
+        fields[key] = value;
+        continue;
+      }
+
+      // List-only paragraph (Links: block sometimes separated).
+      if (/^-\s+/.test(p)) {
+        const listLines = p.split('\n').map(l => l.trim()).filter(l => l.startsWith('-'));
+        for (const l of listLines) {
+          const item = l.replace(/^-\s*/, '');
+          const linkMatch = item.match(/^(\S+)\s*(.*?)\[([^\]]+)\]\(([^)\s]+)\)/);
+          if (linkMatch) {
+            links.push({
+              emoji: linkMatch[1],
+              label: (linkMatch[2] || '').replace(/:\s*$/, '').trim(),
+              text: linkMatch[3],
+              url: linkMatch[4],
+            });
+          }
+        }
+        continue;
+      }
+
+      if (!tagline) tagline = p;
+    }
+
+    return { name, category, image, tagline, fields, links };
+  }
+
+  function parse(md) {
+    const sections = splitSections(md);
+    const categories = [];
+    let current = null;
+
+    for (const section of sections) {
+      // Strip fenced code blocks so template snippets inside ``` ``` don't confuse heading detection.
+      const trimmed = section.replace(/```[\s\S]*?```/g, '').trim();
+      if (!trimmed) continue;
+
+      const h2 = trimmed.match(/^##\s+(.+)$/m);
+      const h3 = trimmed.match(/^###\s+(.+)$/m);
+
+      if (h2) {
+        const name = h2[1].trim();
+        if (IGNORED_SECTIONS.has(name.toLowerCase())) {
+          current = null;
+          continue;
+        }
+        const intro = trimmed.replace(h2[0], '').trim();
+        current = { name, intro, projects: [] };
+        categories.push(current);
+        continue;
+      }
+
+      if (h3) {
+        if (!current) continue;
+        const project = parseProject(trimmed, current.name);
+        if (project) current.projects.push(project);
+      }
+    }
+
+    return categories.filter(c => c.projects.length > 0);
+  }
+
+  // ---- Render ----
+  function slugify(s) {
+    return s.toLowerCase().trim()
+      .replace(/[^\w\s-]/g, '')
+      .replace(/\s+/g, '-');
+  }
+
+  function renderCard(project) {
+    const img = project.image
+      ? `<div class="thumb"><img src="${escapeHtml(project.image.src)}" alt="${escapeHtml(project.image.alt)}" loading="lazy" /></div>`
+      : `<div class="thumb placeholder">No screenshot</div>`;
+
+    const rows = [];
+    if (project.fields.description) {
+      rows.push(`<div class="row"><dt>About</dt><dd>${renderInline(project.fields.description)}</dd></div>`);
+    }
+    if (project.fields.stack) {
+      rows.push(`<div class="row"><dt>Stack</dt><dd>${renderInline(project.fields.stack)}</dd></div>`);
+    }
+    if (project.fields.builder) {
+      rows.push(`<div class="row"><dt>Builder</dt><dd>${renderInline(project.fields.builder)}</dd></div>`);
+    }
+
+    const linkChips = project.links.map(l => {
+      const labelText = l.text || l.label || l.url;
+      return `<a href="${escapeHtml(l.url)}" target="_blank" rel="noopener">${l.emoji ? escapeHtml(l.emoji) + ' ' : ''}${escapeHtml(labelText)}</a>`;
+    }).join('');
+
+    return `
+      <article class="card">
+        ${img}
+        <div class="body">
+          <h3>${escapeHtml(project.name)}</h3>
+          ${project.tagline ? `<p class="tagline">${renderInline(project.tagline)}</p>` : ''}
+          <dl class="meta">${rows.join('')}</dl>
+          ${linkChips ? `<div class="links">${linkChips}</div>` : ''}
+        </div>
+      </article>
+    `;
+  }
+
+  function render(categories) {
+    const toc = document.getElementById('toc');
+    toc.innerHTML = categories
+      .map(c => `<a href="#${slugify(c.name)}">${escapeHtml(c.name)} <span style="opacity:.6;margin-left:.3rem">${c.projects.length}</span></a>`)
+      .join('');
+
+    const content = document.getElementById('content');
+    content.innerHTML = categories.map(c => `
+      <section class="category" id="${slugify(c.name)}">
+        <header>
+          <h2>${escapeHtml(c.name)}</h2>
+          ${c.intro ? `<p class="intro">${renderInline(c.intro)}</p>` : ''}
+        </header>
+        <div class="grid">
+          ${c.projects.map(renderCard).join('')}
+        </div>
+      </section>
+    `).join('');
+  }
+
+  async function load() {
+    try {
+      const res = await fetch('./README.md', { cache: 'no-cache' });
+      if (!res.ok) throw new Error(`${res.status} ${res.statusText}`);
+      const md = await res.text();
+      const categories = parse(md);
+      if (!categories.length) {
+        document.getElementById('content').innerHTML = '<p class="error">No projects found in README.md</p>';
+        return;
+      }
+      render(categories);
+    } catch (err) {
+      document.getElementById('content').innerHTML = `<p class="error">Failed to load README: ${escapeHtml(String(err.message || err))}</p>`;
+    }
+  }
+
+  load();
+})();
+</script>
+</body>
+</html>
