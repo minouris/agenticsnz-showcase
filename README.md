@@ -163,6 +163,8 @@ A continuous AI cognition platform that lets models learn from experience and co
 
 ### ADR (WH(Y) Method)
 
+![ADR](screenshots/adr-why.webp)
+
 An enhanced Architecture Decision Record format for AI-assisted development teams.
 
 **Description:** Addresses structural inconsistency and the conflation of decision rationale with implementation details in existing ADR practice. Provides standardised templates, dependency tracking between decisions, and governance metadata so humans and AI agents can capture and maintain architectural choices with clarity. Language-agnostic and designed to integrate with ADR tooling via options like `adr new --mode=enhanced`.
