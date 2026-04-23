@@ -120,6 +120,68 @@ An interactive web experience celebrating Matariki, the Māori New Year.
 - 🐙 GitHub: [cgbarlow/matariki](https://github.com/cgbarlow/matariki)
 
 ---
+### SPAFW37 (Simple Python Application Framework for Python 3.7 - pronounced "Spafoo 37")
+
+A lightweight Python 3.7 framework for CLI application development, constructed using Copilot Coding Agent.
+
+**Description:** 
+A framework for constructing simple Python command line utilities through declaring parameters and commands as Dicts, and linking them to executor functions:
+
+```python
+# Define parameters
+params = [
+    {
+        PARAM_NAME: 'name',
+        PARAM_DESCRIPTION: 'Name to greet',
+        PARAM_ALIASES: ['--name', '-n'],
+        PARAM_DEFAULT: 'World',
+    }
+]
+
+# Define command action
+def greet():
+    name = spafw37.get_param('name')
+    print(f"Hello, {name}!")
+
+# Define commands
+commands = [
+    {
+        COMMAND_NAME: 'greet',
+        COMMAND_DESCRIPTION: 'Greet someone',
+        COMMAND_ACTION: greet,
+    }
+]
+
+# Register and run
+spafw37.add_params(params)
+spafw37.add_commands(commands)
+
+if __name__ == '__main__':
+    spafw37.run_cli()
+```
+
+**What's the Agentic angle?**
+
+Because:
+
+A) It was developed almost *entirely* by writing requirements in GitHub tickets, and assigning them to GitHub Coding Agent, or by using Agentic workflows in CoPilot Chat
+B) Because in doing so it was used to debug, diagnose, and develop the initial constraints, rules and workflows for CoPilot that have formed the basis for *all* my subsequent AI work
+C) Because it continues to be useful as a way to produce lightweight Python tools that can be used by Claude Skills and Plugins to consolidate their scripting requirements and provide a common inrterface schema, instead of ad-hoc scripts spread out all over the place
+
+The meat for us is actually in the `features/` folder and the `.github/prompts` folder:
+
+- `.github/prompts` contains the workflow prompts for planning features in a way that builds an implementation plan across multiple cumulative steps
+- `features/` contains plans created using those prompts, used as input for the final step of the workflow to produce working implementation, tests and documentation, with the plan file serving as an as-built for the application.
+
+Note that these workflows are effectively a museum piece now - when a plan reaches a certain size, it explodes the context and becomes unworkable. But they're the springboard from which other work flows.
+
+**Stack:** GitHub CoPilot Chat, GitHub Copilot Coding Agent
+
+**Builder:** Ciara Norrish
+
+**Links:**
+- 🌐 Live: https://pypi.org/project/spafw37/
+- 🐙 GitHub: https://github.com/minouris/spafw37
 
 ## Tools 
 
